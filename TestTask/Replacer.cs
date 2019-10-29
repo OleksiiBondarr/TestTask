@@ -10,15 +10,15 @@ namespace TestTask
     {
         public int Number { get; set; }
         public List<Tuple<int, int>> Pairs { get; set; }
-        public Dictionary<int, int> Mass { get; set; }
+        public Dictionary<int, int> MassDict { get; set; }
         public List<List<int>> Loops { get; set; }
-        public Replacer(int num, List<int> st, List<int> tg, List<int> ms)
+        public Replacer(int num, List<int> start, List<int> target, List<int> masses)
         {
             Number = num;
-            Pairs = st.Zip(tg, (a, b) => new Tuple<int, int>(a, b)).ToList();
+            Pairs = start.Zip(target, (a, b) => new Tuple<int, int>(a, b)).ToList();
             List<int> l = new List<int>();
             l.AddRange(Enumerable.Range(1, num));
-            Mass = l.Zip(ms, (a, b) => new {a, b}).ToDictionary(item => item.a, item => item.b);
+            MassDict = l.Zip(masses, (a, b) => new {a, b}).ToDictionary(item => item.a, item => item.b);
         }
         //Find all the loops which are longer than 1( 1 length loops have no influence on the result)
         public void FindLoops()
@@ -57,25 +57,26 @@ namespace TestTask
                         }
                     }
                 }
-                if (tmpLoop.Count>1) this.Loops.Add(tmpLoop);
+                if (tmpLoop.Count>1)
+                    this.Loops.Add(tmpLoop);
             }
         }
         //Calculate 2 methods and find best one
         public int Calculations()
         {
-            int minMassGlobal = Mass.OrderBy(a => a.Value).First().Value;
+            int minMassGlobal = MassDict.OrderBy(a => a.Value).First().Value;
             int math1Calcs = 0;
             int math2Calcs = 0;
-            foreach (List<int> l in this.Loops){
+            foreach (List<int> loop in this.Loops){
                 int sumMassLoop = 0;
                 int minMassLoop = Int32.MaxValue;
-                foreach (int elephant in l)
+                foreach (int elephant in loop)
                 {
-                    sumMassLoop += Mass[elephant];
-                    if (Mass[elephant] < minMassLoop) minMassLoop = Mass[elephant];
+                    sumMassLoop += MassDict[elephant];
+                    if (MassDict[elephant] < minMassLoop) minMassLoop = MassDict[elephant];
                 }
-                math1Calcs += sumMassLoop + (l.Count - 2) * minMassLoop;
-                math2Calcs += sumMassLoop + minMassLoop + (l.Count + 1) * minMassGlobal;
+                math1Calcs += sumMassLoop + (loop.Count - 2) * minMassLoop;
+                math2Calcs += sumMassLoop + minMassLoop + (loop.Count + 1) * minMassGlobal;
             }
             
             return Math.Min(math1Calcs,math2Calcs);

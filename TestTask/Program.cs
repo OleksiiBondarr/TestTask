@@ -12,12 +12,6 @@ namespace TestTask
         private static List<int> target = null;
         static void Main(string[] args)
         {
-
-            List<List<int>> t = new List<List<int>>();
-            List<int> r = new List<int> { 1, 2, 3 };
-            t.Add(r);
-
-
             //Validating number of elephants
             do {
                 Console.WriteLine("Enter number of elephants");
