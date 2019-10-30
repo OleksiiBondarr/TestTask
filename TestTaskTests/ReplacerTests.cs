@@ -30,7 +30,7 @@ namespace TestTask.Tests
             string filenameOut = "C:\\Users\\aleks\\Desktop\\VS\\TestTask\\zadanie_B\\slo3.out";
             int expected = Program.ToInt(File.ReadAllLines(filenameOut)[0]);
 
-            int actual = Program.getDataFromFile(filenameIn);
+            int actual = Program.ProvideResult(filenameIn);
             Assert.AreEqual(expected, actual);
 
         }
