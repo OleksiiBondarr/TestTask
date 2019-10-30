@@ -25,11 +25,13 @@ namespace TestTask
             rp.FindLoops();
             Console.WriteLine("correct result:\n{0}", rp.Calculations());
         }
+
         //generic method to get convert string into appropriate format 
         private static T GetFromConsole<T>(string message, int argType, Func<string, int, T> StringConv)
         {
             return StringConv(ConsoleWriteRead(message), argType); ;
         }
+
         //used for ints
         private static int GetIntFromConsole(string message)
         {
@@ -37,6 +39,7 @@ namespace TestTask
             int res = GetFromConsole<int>(message, 0, ConvInt);
             return ((res >= 1000000) || (res < 2)) ? GetIntFromConsole(message) : res;
         }
+
         //used for lists
         private static List<int> GetListFromConsole(string message, int argType)
         {
@@ -44,7 +47,6 @@ namespace TestTask
             List<int> res = GetFromConsole<List<int>>(message, argType, ConvList);
             return res is null ? GetListFromConsole(message, argType) : res;
         }
-
 
         //Method for Parrsing and validating input
         private static List<int> ValidInput(String line, int checkType)
@@ -59,7 +61,6 @@ namespace TestTask
             Console.WriteLine("Enter data in the correct format");
             return null;
         }
-
 
         //Method for Console Operations
         private static string ConsoleWriteRead(string message)
