@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 using TestTask;
 namespace TestTask.Tests
 {
@@ -21,6 +22,17 @@ namespace TestTask.Tests
 
             Assert.AreEqual(expected, actual);
         
+        }
+        [TestMethod]
+        public void CalculationsFileTest1()
+        {
+            string filenameIn = "C:\\Users\\aleks\\Desktop\\VS\\TestTask\\zadanie_B\\slo3.in";
+            string filenameOut = "C:\\Users\\aleks\\Desktop\\VS\\TestTask\\zadanie_B\\slo3.out";
+            int expected = Program.ToInt(File.ReadAllLines(filenameOut)[0]);
+
+            int actual = Program.getDataFromFile(filenameIn);
+            Assert.AreEqual(expected, actual);
+
         }
     }
 }

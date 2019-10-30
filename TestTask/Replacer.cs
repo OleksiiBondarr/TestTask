@@ -29,7 +29,6 @@ namespace TestTask
             {
                 checks.Add(i, true);
             }
-
             foreach (Tuple<int, int> item in this.Pairs)
             {
                 List<int> tmpLoop = new List<int>();
@@ -37,48 +36,35 @@ namespace TestTask
                 {
                     tmpLoop.Add(item.Item1);
                     checks[item.Item1] = false;
-                    int tmpitem = item.Item2;
-                    
-                    foreach (Tuple<int, int> item2 in this.Pairs)
-                    {
-                        if (checks[item2.Item1]&&(item2.Item1==tmpitem))
+                    bool tmpCheck = false;
+                    Tuple<int, int> tmpitem1 = item;
+                    do {
+                        Tuple<int, int>  item2 = this.Pairs.Where(elem => elem.Item1 == tmpitem1.Item2).ToList()[0];
+                        tmpCheck = checks[item2.Item1];
+                        if (tmpCheck)
                         {
                             checks[item2.Item1] = false;
                             tmpLoop.Add(item2.Item1);
-                            if (tmpLoop.Contains(item2.Item2))
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                checks[item2.Item2] = false;
-                                tmpLoop.Add(item2.Item2);
-                            }
+                            tmpitem1 = item2;
                         }
-                    }
+                    } while (tmpCheck);
                 }
-                if (tmpLoop.Count>1)
+                if (tmpLoop.Count > 1)
                     this.Loops.Add(tmpLoop);
             }
         }
-        //Calculate 2 methods and find best one
+        //Calculate 2 methods and choose best one
         public int Calculations()
         {
-            int minMassGlobal = MassDict.OrderBy(a => a.Value).First().Value;
+            int minMassGlobal = MassDict.Values.Min();
             int math1Calcs = 0;
             int math2Calcs = 0;
             foreach (List<int> loop in this.Loops){
-                int sumMassLoop = 0;
-                int minMassLoop = Int32.MaxValue;
-                foreach (int elephant in loop)
-                {
-                    sumMassLoop += MassDict[elephant];
-                    if (MassDict[elephant] < minMassLoop) minMassLoop = MassDict[elephant];
-                }
+                int sumMassLoop = loop.Select(x => MassDict[x]).Sum();
+                int minMassLoop = loop.Select(x => MassDict[x]).Min();
                 math1Calcs += sumMassLoop + (loop.Count - 2) * minMassLoop;
                 math2Calcs += sumMassLoop + minMassLoop + (loop.Count + 1) * minMassGlobal;
             }
-            
             return Math.Min(math1Calcs,math2Calcs);
         }
 
