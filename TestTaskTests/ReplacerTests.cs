@@ -20,7 +20,7 @@ namespace TestTask.Tests
             int actual = rep.Calculations();
 
             Assert.AreEqual(expected, actual);
-        
+
         }
     }
 }
