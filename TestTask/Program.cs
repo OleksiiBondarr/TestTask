@@ -13,7 +13,7 @@ namespace TestTask
         private static List<int> target = null;
         static void Main(string[] args)
         {
-            Console.WriteLine(ProvideResult(args[0]));
+            Console.WriteLine(ProvideResult(Console.ReadLine()));
         }
         //Method to calculate data from file
         public static int ProvideResult(string filename)
